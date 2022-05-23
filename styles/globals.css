@@ -1,9 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "boonhome-400";
+  font-weight: normal;
+  font-style: normal;
+  src: url(/fonts/boonhome-400.otf);
+  src: local("boonhome-400"), url(/fonts/boonhome-400.woff) format("woff2");
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, boonhome-400, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -13,4 +25,8 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.boonhome {
+  font-family: "boonhome-400";
 }
