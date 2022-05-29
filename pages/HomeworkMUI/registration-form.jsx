@@ -132,16 +132,18 @@ const initial = {
   symptom: null,
 };
 
+const initialHistory = {
+  lossOfTasteSmell: false,
+  difficultyBreathing: false,
+  cough: false,
+  runningNose: false,
+  bodyAches: false,
+  soreThroat: false,
+};
+
 function RegistrationForm() {
   const [patientInfo, setPatientInfo] = useState(initial);
-  const [stateSymptoms, setStateSymptoms] = React.useState({
-    lossOfTasteSmell: false,
-    difficultyBreathing: false,
-    cough: false,
-    runningNose: false,
-    bodyAches: false,
-    soreThroat: false,
-  });
+  const [stateSymptoms, setStateSymptoms] = React.useState(initialHistory);
 
   const handleChange = (event) => {
     setStateSymptoms({
@@ -167,10 +169,12 @@ function RegistrationForm() {
     const docRef = await addDoc(collection(db, "patient"), finalValue);
     alert("Document written with ID: ", docRef.id);
     setPatientInfo(initial);
+    setStateSymptoms(initialHistory);
   };
 
   const resetFormHandler = () => {
     setPatientInfo(initial);
+    setStateSymptoms(initialHistory);
   };
 
   return (
