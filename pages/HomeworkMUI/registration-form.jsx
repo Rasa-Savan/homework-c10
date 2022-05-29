@@ -166,6 +166,11 @@ function RegistrationForm() {
 
     const docRef = await addDoc(collection(db, "patient"), finalValue);
     alert("Document written with ID: ", docRef.id);
+    setPatientInfo(initial);
+  };
+
+  const resetFormHandler = () => {
+    setPatientInfo(initial);
   };
 
   return (
@@ -371,7 +376,7 @@ function RegistrationForm() {
         <Button variant="outlined" color="success" onClick={submitHandler}>
           Submit
         </Button>
-        <Button variant="outlined" color="error">
+        <Button variant="outlined" color="error" onClick={resetFormHandler}>
           Cancel
         </Button>
       </div>
