@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RegistrationForm from "./registration-form";
 import VaccineForm from "./vaccine-form";
+import DataGridDemo from "./patient-table";
 
 export default function PatientAccordion() {
   return (
@@ -57,6 +58,29 @@ export default function PatientAccordion() {
         </AccordionSummary>
         <AccordionDetails sx={{ paddingY: "50px" }}>
           <VaccineForm />
+        </AccordionDetails>
+      </Accordion>
+      
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+          sx={{ backgroundColor: "#76d1f5", color: "#055270" }}
+        >
+          <Typography
+            variant="h6"
+            component="p"
+            sx={{ width: "33%", flexShrink: 0 }}
+          >
+            List of all patients
+          </Typography>
+          <Typography component="p" sx={{ color: "#555555" }}>
+            List of all Registered Patient
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{ paddingY: "50px" }}>
+          <DataGridDemo />
         </AccordionDetails>
       </Accordion>
     </div>

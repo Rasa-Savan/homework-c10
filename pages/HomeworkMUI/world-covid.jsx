@@ -1,7 +1,9 @@
-import { Divider, IconButton } from "@mui/material";
+import { Button, Divider, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CovidCard from "./covid-card";
 import CloseIcon from "@mui/icons-material/Close";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
 
 function WorldCovid() {
   const [covidData, setCovidData] = useState([]);
@@ -28,6 +30,27 @@ function WorldCovid() {
 
   const clickHandler = (item) => {
     setCovidDataCountry(item);
+  };
+
+  const addInfoHandler = async () => {
+    // console.log("result", covidDataCountry);
+    const unixTime = covidDataCountry.updated;
+    const date = new Date(unixTime);
+
+    const finalResult = {
+      flag: covidDataCountry.countryInfo.flag,
+      country: covidDataCountry.country,
+      continent: covidDataCountry.continent,
+      cases: covidDataCountry.cases,
+      active: covidDataCountry.active,
+      recovered: covidDataCountry.recovered,
+      deaths: covidDataCountry.deaths,
+      updatedDate: date.toLocaleDateString("en-US"),
+    };
+
+    await setDoc(doc(db, "covidWorld", covidDataCountry.country), finalResult);
+
+    alert("success");
   };
 
   return (
@@ -78,6 +101,9 @@ function WorldCovid() {
               color="#db0606"
             />
           </div>
+          <Button variant="outlined" color="success" onClick={addInfoHandler}>
+            Submit
+          </Button>
         </div>
       )}
       <Divider sx={{ marginY: "20px" }} />
