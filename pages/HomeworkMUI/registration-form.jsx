@@ -1,5 +1,5 @@
 import {
-    Button,
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -13,8 +13,10 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase/config";
 
 const DateRange = [
   "1",
@@ -119,7 +121,19 @@ const YearRange = [
   "2030",
 ];
 
+const initial = {
+  firstname: "",
+  lastname: "",
+  dobDate: "",
+  dobMonth: "",
+  dobYear: "",
+  address: "",
+  isCovid: null,
+  symptom: null,
+};
+
 function RegistrationForm() {
+  const [patientInfo, setPatientInfo] = useState(initial);
   const [stateSymptoms, setStateSymptoms] = React.useState({
     lossOfTasteSmell: false,
     difficultyBreathing: false,
@@ -136,6 +150,24 @@ function RegistrationForm() {
     });
   };
 
+  const submitHandler = async () => {
+    const finalValue = {
+      ...patientInfo,
+      dob:
+        patientInfo.dobDate +
+        "-" +
+        patientInfo.dobMonth +
+        "-" +
+        patientInfo.dobYear,
+      symptom: stateSymptoms,
+    };
+
+    console.log(finalValue);
+
+    const docRef = await addDoc(collection(db, "patient"), finalValue);
+    alert("Document written with ID: ", docRef.id);
+  };
+
   return (
     <div className="mx-20">
       <p className="text-center p-3 text-2xl bg-[#eaf9ff] boonhome font-extrabold text-gray-500">
@@ -148,8 +180,20 @@ function RegistrationForm() {
             helperText="First Name"
             placeholder="First Name"
             fullWidth
+            value={patientInfo.firstname}
+            onChange={(e) =>
+              setPatientInfo({ ...patientInfo, firstname: e.target.value })
+            }
           />
-          <TextField helperText="Last Name" placeholder="Last Name" fullWidth />
+          <TextField
+            helperText="Last Name"
+            placeholder="Last Name"
+            fullWidth
+            value={patientInfo.lastname}
+            onChange={(e) =>
+              setPatientInfo({ ...patientInfo, lastname: e.target.value })
+            }
+          />
         </div>
       </div>
       <div className="my-3">
@@ -162,8 +206,10 @@ function RegistrationForm() {
               id="select-date"
               label="Date"
               placeholder="Date"
-              //   value={age}
-              //   onChange={handleChange}
+              value={patientInfo.dobDate}
+              onChange={(e) =>
+                setPatientInfo({ ...patientInfo, dobDate: e.target.value })
+              }
             >
               {DateRange.map((d, index) => (
                 <MenuItem key={index} value={d}>
@@ -179,8 +225,10 @@ function RegistrationForm() {
               id="select-month"
               label="Month"
               placeholder="Select month"
-              //   value={age}
-              //   onChange={handleChange}
+              value={patientInfo.dobMonth}
+              onChange={(e) =>
+                setPatientInfo({ ...patientInfo, dobMonth: e.target.value })
+              }
             >
               {MonthRange.map((m, index) => (
                 <MenuItem key={index} value={m}>
@@ -196,10 +244,12 @@ function RegistrationForm() {
               id="select-year"
               label="Year"
               placeholder="Select Year"
-              //   value={age}
-              //   onChange={handleChange}
+              value={patientInfo.dobYear}
+              onChange={(e) =>
+                setPatientInfo({ ...patientInfo, dobYear: e.target.value })
+              }
             >
-              {MonthRange.map((y, index) => (
+              {YearRange.map((y, index) => (
                 <MenuItem key={index} value={y}>
                   {y}
                 </MenuItem>
@@ -218,6 +268,10 @@ function RegistrationForm() {
             multiline
             rows={5}
             fullWidth
+            value={patientInfo.address}
+            onChange={(e) =>
+              setPatientInfo({ ...patientInfo, address: e.target.value })
+            }
           />
         </div>
       </div>
@@ -314,7 +368,7 @@ function RegistrationForm() {
       </div>
 
       <div className="flex space-x-10 my-10">
-        <Button variant="outlined" color="success">
+        <Button variant="outlined" color="success" onClick={submitHandler}>
           Submit
         </Button>
         <Button variant="outlined" color="error">
