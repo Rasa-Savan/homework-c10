@@ -162,6 +162,7 @@ export default function MiniDrawer() {
             COVID-19 Monitoring System
           </Typography>
           <div className="flex-1" />
+          <p>Course 10 traininging Web APP</p>
           <div className="flex items-center space-x-3 mr-3">
             <Avatar src="" alt="" />
             <Typography variant="body" noWrap component="p">
